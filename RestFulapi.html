@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <script>
+        var apidata;
+        function fetchData(){
+            fetch("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY")
+            .then(function(response){
+             return response.json();   
+            })
+            .then(function(data){
+
+                var tbody=document.getElementById("tbody");
+
+                for(var item of data.photos){
+
+                    var tr=document.createElement("tr");
+                    var tdId=document.createElement("td");
+                    var tdSol=document.createElement("td");
+                    var tdCamera=document.createElement("td");
+                    var tdphoto=document.createElement("td");
+
+                    tdId.innerHTML=item.id;
+                    tr.appendChild(tdId);
+                    
+                    
+                    
+                    tdSol.innerHTML=item.sol;
+                    tr.appendChild(tdSol);
+                    
+
+                    tdCamera.innerHTML=item.camera.full_name;
+                    tr.appendChild(tdCamera);
+
+
+                    var pic=document.createElement("img");
+                    pic.width="150";
+                    pic.height="150";
+                    pic.src=item.img_src;
+                    tdphoto.appendChild(pic);
+                    tr.appendChild(tdphoto);
+
+
+
+                    tbody.appendChild(tr);
+
+
+
+                }
+                
+            });
+            
+        }
+    </script>
+  </head>
+  <body class="container-fluid">
+    <h3>
+      NASA -mars photo
+      <br />
+      <button class="btn btn-primary" id="fatchApi" onclick="fetchData()">
+        Fetch api
+      </button>
+    </h3>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Photo id</th>
+          <th>sol</th>
+          <th>Camera name</th>
+          <th>Photo</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  </body>
+</html>
